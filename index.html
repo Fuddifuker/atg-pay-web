@@ -66,4 +66,202 @@
 
           // Icons
           const HomeIcon = ({ active }) => (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3L21 9.5V19C21 20.1046 20.1046 21
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3L21 9.5V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V9.5Z" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M9 21V12H15V21" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          );
+          const DepositIcon = ({ active }) => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 5V19M12 5L7 10M12 5L17 10" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 19H20" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2.5" strokeLinecap="round"/></svg>
+          );
+          const TeamIcon = ({ active }) => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9" cy="7" r="4" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          );
+          const MeIcon = ({ active }) => (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="7" r="4" stroke={active ? "#facc15" : "#64748b"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          );
+
+          const TokenHistory = () => (
+            <div className="min-h-screen bg-[#0d0b21] text-white pb-40 animate-in">
+              <div className="flex items-center px-4 py-6 sticky top-0 bg-[#0d0b21] z-50">
+                <button onClick={() => setView('me')} className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 active:scale-90 transition-transform">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+                <h2 className="flex-1 text-center font-bold text-lg mr-10">Token History</h2>
+              </div>
+              <div className={`px-5 space-y-6 ${isRefreshing ? 'opacity-50' : 'opacity-100'}`}>
+                {records.map((item) => (
+                  <div key={item.id} className="bg-white/5 rounded-[32px] p-6 border border-white/5 shadow-2xl slide-up">
+                    <div className="flex justify-between items-center mb-6">
+                      <span className="bg-[#5e2d91] text-white text-[10px] font-black px-3.5 py-1.5 rounded-lg uppercase">{item.type}</span>
+                      <span className="text-[11px] text-gray-500 font-bold">{item.transactionTime.split(' ')[0]}</span>
+                    </div>
+                    <div className="space-y-4">
+                      {[
+                        { l: "No", v: item.no, c: "text-[#a78bfa] font-bold" },
+                        { l: "Amount", v: `₹${item.amount}`, c: "text-[#3b82f6] font-extrabold text-[15px]" },
+                        { l: "Upi", v: item.upi, c: "text-gray-300" },
+                        { l: "UTR", v: item.utr, c: "text-gray-100 font-black tracking-wider" },
+                        { l: "Desc", v: item.desc, c: "text-[#a78bfa] italic" },
+                        { l: "Balance", v: `₹${item.balance}`, c: "text-[#10b981] font-black text-[15px]", border: true }
+                      ].map((row, i) => (
+                        <div key={i} className={`flex justify-between items-center text-[13px] ${row.border ? 'pt-2 border-t border-white/5' : ''}`}>
+                          <span className="text-gray-400">{row.l}</span>
+                          <span className={`${row.c} text-right ml-4`}>{row.v}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+
+          const HomePage = () => (
+            <div className="min-h-screen bg-[#0d0b21] pb-40 relative text-white animate-in">
+              <div className="absolute -top-20 -left-20 w-72 h-72 bg-purple-600/20 rounded-full blur-[100px]"></div>
+              <div className="px-6 pt-8 relative z-10">
+                <div className="flex justify-between items-center mb-8">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-bold">A</div>
+                    <h1 className="text-2xl font-black italic">ATG pay <span className="w-1.5 h-1.5 bg-green-400 rounded-full inline-block animate-pulse"></span></h1>
+                  </div>
+                  <div className="w-11 h-11 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10">🔔</div>
+                </div>
+                
+                <div className="relative overflow-hidden rounded-[35px] bg-gradient-to-br from-[#1e1b4b] to-[#0f172a] p-7 border border-white/5 shadow-2xl mb-8">
+                  <span className="text-[10px] font-black uppercase text-purple-400 mb-1 block">Account Level</span>
+                  <h2 className="font-black text-xl italic mb-6">LV2 · Core User</h2>
+                  <div className="w-full bg-black/40 h-3 rounded-full mb-6 border border-white/5 p-0.5">
+                    <div className="bg-gradient-to-r from-purple-500 to-blue-500 h-full w-[15%] rounded-full shadow-[0_0_10px_purple]"></div>
+                  </div>
+                  <div className="flex justify-between items-end"><p className="text-[10px] font-black text-blue-400 uppercase">Worldwide Gateway</p><span className="text-4xl font-black italic opacity-20">0%</span></div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-10">
+                  {[
+                    { label: "Main Balance", val: user.balance, id: 'me', color: "text-blue-400" },
+                    { label: "Today Received", val: user.today, color: "text-emerald-400" },
+                    { label: "INR Recharge", val: user.recharge, color: "text-purple-400" },
+                    { label: "Team Bonus", val: user.commission, color: "text-pink-400" }
+                  ].map((item, idx) => (
+                    <div key={idx} onClick={() => item.id && setView(item.id)} className="bg-white/5 border border-white/5 rounded-[30px] p-6 flex flex-col items-center justify-center active:scale-95 transition-all">
+                      <span className="text-gray-500 text-[9px] font-black uppercase mb-3">{item.label}</span>
+                      <span className={`${item.color} font-black text-2xl italic`}>₹{item.val}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="space-y-4">
+                  <h2 className="text-lg font-black italic uppercase">Academy</h2>
+                  {["Smart USDT Purchase", "FreeCharge Link Guide"].map((t, i) => (
+                    <div key={i} className="flex items-center justify-between bg-white/5 p-5 rounded-[28px] border border-white/5">
+                      <span className="font-bold">{t}</span>
+                      <div className="bg-white/10 px-4 py-2 rounded-xl text-[10px] font-black">Start ›</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+
+          const MePage = () => (
+            <div className="min-h-screen bg-[#0d0b21] pb-40 text-white animate-in">
+              <div className="px-6 pt-12">
+                <div className="flex items-center space-x-4 mb-10">
+                  <div className="w-16 h-16 rounded-[24px] bg-gradient-to-tr from-[#8b5cf6] to-[#ec4899] flex items-center justify-center text-2xl">👤</div>
+                  <div>
+                    <h3 className="text-xl font-black italic">Verified User</h3>
+                    <p onMouseDown={onHoldStart} onMouseUp={onHoldEnd} onTouchStart={onHoldStart} onTouchEnd={onHoldEnd} className="text-gray-500 font-bold select-none">UID: {user.id}</p>
+                  </div>
+                </div>
+
+                <div className="bg-white/5 rounded-[32px] p-8 border border-white/10 mb-8">
+                  <span className="text-blue-400 font-black text-[10px] uppercase block mb-2">Available Balance</span>
+                  <div className="flex justify-between items-end">
+                    <span className="text-[48px] font-black tracking-tighter">₹{user.balance}</span>
+                    <button className="bg-white text-black px-6 py-3 rounded-[20px] font-black text-[11px] uppercase">Add Cash</button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div onClick={() => setView('history')} className="flex items-center justify-between p-5 bg-white/5 rounded-[24px] border border-white/5">
+                    <span className="font-bold">Token History</span>
+                    <span>📑</span>
+                  </div>
+                  <div className="flex items-center justify-between p-5 bg-white/5 rounded-[24px] border border-white/5">
+                    <div className="flex flex-col"><span className="font-bold">Google Authenticator</span><span className="text-[10px] text-gray-500 uppercase">Enhanced Security</span></div>
+                    <button onClick={() => setGoogleAuth(!googleAuth)} className={`w-14 h-8 rounded-full transition-all p-1 flex items-center ${googleAuth ? 'bg-blue-500' : 'bg-white/10'}`}>
+                      <div className={`w-6 h-6 bg-white rounded-full transition-all ${googleAuth ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+
+          return (
+            <div className="max-w-md mx-auto min-h-screen relative font-sans overflow-x-hidden bg-[#0d0b21]">
+              {view === 'home' && <HomePage />}
+              {view === 'me' && <MePage />}
+              {view === 'history' && <TokenHistory />}
+              {['payment', 'upi', 'team'].includes(view) && (
+                <div className="h-screen flex flex-col items-center justify-center text-white">
+                  <span className="opacity-40 uppercase font-black tracking-widest text-xs">Section Maintenance</span>
+                  <button onClick={() => setView('home')} className="mt-8 text-blue-500 font-black text-[10px] uppercase border border-blue-500/30 px-6 py-2 rounded-full">Go Back</button>
+                </div>
+              )}
+
+              <nav className="fixed bottom-0 left-0 right-0 w-full max-w-md mx-auto bg-[#131416]/95 backdrop-blur-md flex justify-between items-center px-4 pt-3 pb-8 z-[90] border-t border-white/5">
+                <div onClick={() => setView('home')} className="flex flex-col items-center flex-1 cursor-pointer"><HomeIcon active={view === 'home'} /><span className={`text-[10px] font-bold ${view === 'home' ? 'text-[#facc15]' : 'text-slate-500'}`}>Home</span></div>
+                <div onClick={() => setView('payment')} className="flex flex-col items-center flex-1 cursor-pointer"><DepositIcon active={view === 'payment'} /><span className={`text-[10px] font-bold ${view === 'payment' ? 'text-[#facc15]' : 'text-slate-500'}`}>Deposit</span></div>
+                <div className="flex-1 flex justify-center -mt-10">
+                  <div onClick={() => setView('upi')} className={`w-16 h-16 rounded-[22px] rotate-[15deg] flex items-center justify-center shadow-2xl transition-all ${view === 'upi' ? 'bg-gradient-to-br from-purple-500 to-indigo-800' : 'bg-[#222327]'}`}>
+                    <div className="-rotate-[15deg] text-white font-black text-[8px] uppercase">UPI</div>
+                  </div>
+                </div>
+                <div onClick={() => setView('team')} className="flex flex-col items-center flex-1 cursor-pointer"><TeamIcon active={view === 'team'} /><span className={`text-[10px] font-bold ${view === 'team' ? 'text-[#facc15]' : 'text-slate-500'}`}>Team</span></div>
+                <div onClick={() => setView('me')} className="flex flex-col items-center flex-1 cursor-pointer"><MeIcon active={view === 'me' || view === 'history'} /><span className={`text-[10px] font-bold ${view === 'me' || view === 'history' ? 'text-[#facc15]' : 'text-slate-500'}`}>Me</span></div>
+              </nav>
+
+              {showAdmin && (
+                <div className="fixed inset-0 z-[100] bg-black text-white p-6 overflow-y-auto pb-40">
+                  <div className="flex justify-between items-center mb-10 border-b border-white/10 pb-6"><h2 className="font-black italic text-2xl text-blue-500">Master Console</h2><button onClick={() => setShowAdmin(false)} className="text-red-500 font-black text-[10px] uppercase">Exit</button></div>
+                  <div className="space-y-6">
+                    {['balance', 'today', 'recharge', 'commission'].map(k => (
+                      <div key={k} className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                        <label className="text-[9px] font-black uppercase text-blue-400 block mb-2">{k}</label>
+                        <input className="w-full bg-black/40 p-3 rounded-xl font-black border border-white/10" value={user[k]} onChange={e => setUser({...user, [k]: e.target.value})} />
+                      </div>
+                    ))}
+                    <div className="mt-8 space-y-4">
+                      {records.map(r => (
+                        <div key={r.id} onClick={() => setEditingItem(r)} className="bg-white/5 p-5 rounded-2xl border border-white/5 flex justify-between">
+                          <p className="text-blue-400 font-black">₹{r.amount}</p><span>✎</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {editingItem && (
+                <div className="fixed inset-0 z-[110] bg-black text-white p-6 overflow-y-auto animate-in">
+                  <div className="flex items-center justify-between mb-10 border-b border-white/10 pb-6"><h3 className="font-black italic text-xl text-purple-400">Modify Transaction</h3><button onClick={() => setEditingItem(null)} className="text-gray-500 text-[10px]">Cancel</button></div>
+                  <div className="space-y-5">
+                    {Object.keys(editingItem).filter(k => k !== 'id').map(key => (
+                      <div key={key} className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                        <label className="text-[9px] font-black uppercase text-gray-500 block mb-2">{key}</label>
+                        <textarea className="w-full bg-black/40 border border-white/10 p-4 rounded-2xl text-white outline-none" rows={key === 'desc' ? 3 : 1} value={editingItem[key]} onChange={e => setEditingItem({...editingItem, [key]: e.target.value})} />
+                      </div>
+                    ))}
+                    <button onClick={() => { setRecords(records.map(r => r.id === editingItem.id ? editingItem : r)); setEditingItem(null); }} className="w-full bg-blue-600 py-5 rounded-[32px] font-black uppercase">Save Data</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
